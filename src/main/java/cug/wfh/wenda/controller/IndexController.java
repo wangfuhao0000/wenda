@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
-@Controller
+//@Controller
 public class IndexController {
 
     private static Logger logger = LoggerFactory.getLogger(IndexController.class);
