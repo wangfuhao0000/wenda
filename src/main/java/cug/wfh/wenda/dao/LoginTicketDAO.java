@@ -11,7 +11,7 @@ public interface LoginTicketDAO {
     String SELECT_FILEDS = " id, " + INSERT_FILEDS;
 
     @Insert({"insert into ", TABLE_NAME, "(", INSERT_FILEDS,
-            ") values (#{userId},#{expired},#{status},#{ticket}"})
+            ") values (#{userId},#{expired},#{status},#{ticket})"})
     int addTicket(LoginTicket ticket);
 
     @Select({"select ", SELECT_FILEDS, " from ", TABLE_NAME, " where ticket=#{ticket}"})

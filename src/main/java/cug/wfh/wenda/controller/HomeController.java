@@ -1,5 +1,6 @@
 package cug.wfh.wenda.controller;
 
+import cug.wfh.wenda.model.HostHolder;
 import cug.wfh.wenda.model.Question;
 import cug.wfh.wenda.model.ViewObject;
 import cug.wfh.wenda.service.QuestionService;
@@ -28,6 +29,9 @@ public class HomeController {
 
     @Autowired
     QuestionService questionService;
+
+    @Autowired
+    HostHolder hostHolder;
 
     @RequestMapping(path = {"/user/{userId}"}, method = {RequestMethod.GET})
     public String userIndex(Model model, @PathVariable("userId") int userId) {
