@@ -59,4 +59,10 @@ public class WendaUtil {
         return md5code;
     }
 
+    public static void main(String[] args) {
+        String key = "xxaf805";
+        String password = WendaUtil.MD5(key);
+        System.out.println(password);
+    }
+
 }
