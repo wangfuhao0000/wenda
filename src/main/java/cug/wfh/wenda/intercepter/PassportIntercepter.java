@@ -46,7 +46,7 @@ public class PassportIntercepter implements HandlerInterceptor {
             }
 
             User user = userDAO.selectById(loginTicket.getUserId());
-            hostHolder.setUser(user);
+            hostHolder.setUser(user);       //将这个用户添加至这个线程对应的用户中
         }
         return true;
 
@@ -57,7 +57,7 @@ public class PassportIntercepter implements HandlerInterceptor {
     public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
         if (modelAndView != null) {
             //在模版里面就可以直接访问这个变量了
-            modelAndView.addObject("user", hostHolder.getUser());
+            modelAndView.addObject("user", hostHolder.getUser());       //当登录时，把user放到模板中以便访问
         }
     }
 

@@ -1,6 +1,7 @@
 package cug.wfh.wenda.controller;
 
 import cug.wfh.wenda.service.UserService;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ public class LoginController {
     public String reg(Model model,
                       @RequestParam("username") String username,
                       @RequestParam("password") String password,
+                      @RequestParam(value = "next", required = false) String next,
                       HttpServletResponse response) {
         try {
             Map<String, String> map = userService.register(username, password);
@@ -35,6 +37,9 @@ public class LoginController {
                 cookie.setPath("/");
                 //cookie.setMaxAge();
                 response.addCookie(cookie);
+                if (StringUtils.isNotBlank(next)) {
+                    return "redirect:" + next;
+                }
                 return "redirect:/";
             } else {
                 model.addAttribute("msg", map.get("msg"));
@@ -52,6 +57,7 @@ public class LoginController {
     public String login(Model model,
                         @RequestParam("username") String username,
                         @RequestParam("password") String password,
+                        @RequestParam(value = "next", required = false) String next,
                         @RequestParam(value = "rememberme", defaultValue = "false") boolean rememberme,
                         HttpServletResponse response) {
         try {
@@ -61,6 +67,9 @@ public class LoginController {
                 cookie.setPath("/");            //这个setPath不可以少，不然Cookie总是只在会话时有效
                 //cookie.setMaxAge();
                 response.addCookie(cookie);
+                if (StringUtils.isNotBlank(next)) {
+                    return "redirect:" + next;
+                }
                 return "redirect:/";
             } else {
                 model.addAttribute("msg", map.get("msg"));
@@ -75,7 +84,9 @@ public class LoginController {
     }
 
     @RequestMapping(path = {"/reglogin"}, method = {RequestMethod.GET})
-    public String reg(Model model) {
+    public String reg(Model model,
+                      @RequestParam(value = "next", required = false) String next) {
+        model.addAttribute("next",next);        //将next参数埋到了一个input中
         return "login";
     }
 

@@ -40,6 +40,7 @@ public class DatabaseTest {
     @Test
     public void testQuestionDao() {
 
+
         for (int i = 0; i < 11; i++) {
             Question question = new Question();
             question.setCommentCount(1);
@@ -52,6 +53,17 @@ public class DatabaseTest {
             questionDAO.addQuestion(question);
         }
         System.out.println(questionDAO.selectLatestQuestions(0, 0, 10));
+       /*
+        Question question = new Question();
+        question.setCommentCount(1);
+        Date date = new Date();
+        date.setTime(date.getTime() + 1000*3600);
+        question.setCreateDate(date);
+        question.setUserId(14);
+        question.setTitle(String.format("TITLE{%d}", 13));
+        question.setContent(String.format("User%d said ....",13));
+        questionDAO.addQuestion(question);
+        */
     }
 
 }
