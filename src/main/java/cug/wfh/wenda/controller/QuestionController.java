@@ -2,6 +2,7 @@ package cug.wfh.wenda.controller;
 
 import cug.wfh.wenda.model.HostHolder;
 import cug.wfh.wenda.model.Question;
+import cug.wfh.wenda.service.CommentService;
 import cug.wfh.wenda.service.QuestionService;
 import cug.wfh.wenda.service.UserService;
 import cug.wfh.wenda.util.WendaUtil;
@@ -27,6 +28,9 @@ public class QuestionController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    CommentService commentService;
 
     @RequestMapping(value = "/question/add", method = {RequestMethod.POST})
     @ResponseBody
