@@ -4,7 +4,7 @@ import cug.wfh.wenda.model.Comment;
 import cug.wfh.wenda.model.EntityType;
 import cug.wfh.wenda.model.HostHolder;
 import cug.wfh.wenda.service.CommentService;
-import cug.wfh.wenda.service.SensitiveService;
+import cug.wfh.wenda.service.QuestionService;
 import cug.wfh.wenda.util.WendaUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +27,9 @@ public class CommentController {
     @Autowired
     HostHolder hostHolder;
 
+    @Autowired
+    QuestionService questionService;
+
     @RequestMapping(path = "/addComment", method = {RequestMethod.POST})
     public String addComment(@RequestParam("questionId") int questionId,
                              @RequestParam("content") String content) {
@@ -42,6 +45,11 @@ public class CommentController {
             comment.setEntityType(EntityType.ENTITY_QUESTION);
             comment.setEntityId(questionId);
             commentService.addComment(comment);
+
+            //评论数应该+1
+            int count = commentService.getCommentCount(questionId, EntityType.ENTITY_QUESTION);
+            questionService.updateCommentCount(comment.getEntityId(), count);
+
         } catch (Exception e) {
             //e.printStackTrace();
             logger.error("添加评论失败" + e.getMessage());

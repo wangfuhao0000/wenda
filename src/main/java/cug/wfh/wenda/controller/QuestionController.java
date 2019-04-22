@@ -1,7 +1,6 @@
 package cug.wfh.wenda.controller;
 
-import cug.wfh.wenda.model.HostHolder;
-import cug.wfh.wenda.model.Question;
+import cug.wfh.wenda.model.*;
 import cug.wfh.wenda.service.CommentService;
 import cug.wfh.wenda.service.QuestionService;
 import cug.wfh.wenda.service.UserService;
@@ -13,7 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 public class QuestionController {
@@ -62,6 +63,16 @@ public class QuestionController {
     @RequestMapping(value = "/question/{qid}", method = {RequestMethod.GET})
     public String questionDetail(Model model, @PathVariable("qid") int qid) {
         Question question = questionService.selectById(qid);
+        List<Comment> commentList = commentService.getCommentByEntity(qid, EntityType.ENTITY_QUESTION);
+        List<ViewObject> comments = new ArrayList<>();
+        for (Comment comment : commentList) {
+            ViewObject vo = new ViewObject();
+            vo.set("comment", comment);
+            vo.set("user", userService.getUser(comment.getUserId()));
+            comments.add(vo);
+        }
+
+        model.addAttribute("comments", comments);
         model.addAttribute("question", question);
         model.addAttribute("user", userService.getUser(question.getUserId()));
         return "detail";

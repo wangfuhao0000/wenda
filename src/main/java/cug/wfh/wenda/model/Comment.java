@@ -9,7 +9,7 @@ public class Comment {
     private int entityType;
     private String content;
     private Date createdDate;
-    private int status;         //评论的状态
+    private int status;
 
     public int getId() {
         return id;
