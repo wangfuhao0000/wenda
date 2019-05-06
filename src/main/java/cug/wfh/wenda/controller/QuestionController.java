@@ -2,6 +2,7 @@ package cug.wfh.wenda.controller;
 
 import cug.wfh.wenda.model.*;
 import cug.wfh.wenda.service.CommentService;
+import cug.wfh.wenda.service.LikeService;
 import cug.wfh.wenda.service.QuestionService;
 import cug.wfh.wenda.service.UserService;
 import cug.wfh.wenda.util.WendaUtil;
@@ -32,6 +33,9 @@ public class QuestionController {
 
     @Autowired
     CommentService commentService;
+
+    @Autowired
+    LikeService likeService;
 
     @RequestMapping(value = "/question/add", method = {RequestMethod.POST})
     @ResponseBody
@@ -68,6 +72,12 @@ public class QuestionController {
         for (Comment comment : commentList) {
             ViewObject vo = new ViewObject();
             vo.set("comment", comment);
+            if (hostHolder.getUser() != null) {
+                vo.set("liked", 0);
+            } else {
+                vo.set("liked", likeService.getLikeStatus(hostHolder.getUser().getId(), EntityType.ENTITY_COMMENT, comment.getId()));
+            }
+            vo.set("likeCount", likeService.getLikeCount(EntityType.ENTITY_COMMENT, comment.getId()));
             vo.set("user", userService.getUser(comment.getUserId()));
             comments.add(vo);
         }
